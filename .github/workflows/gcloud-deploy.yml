@@ -19,17 +19,34 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ secrets.GCP_PROJECT }}
 
-      - name: Build image and push to Container Registry
+      - name: Build MCP server image and push to Container Registry
         run: |
-          IMAGE="gcr.io/${{ secrets.GCP_PROJECT }}/news-app:${{ github.sha }}"
-          gcloud builds submit --tag "$IMAGE" --project="${{ secrets.GCP_PROJECT }}"
+          IMAGE="gcr.io/${{ secrets.GCP_PROJECT }}/mcp-server:${{ github.sha }}"
+          gcloud builds submit --tag "$IMAGE" --project="${{ secrets.GCP_PROJECT }}" apps/mcp-server
 
-      - name: Deploy to Cloud Run
+      - name: Deploy MCP server to Cloud Run
         run: |
-          IMAGE="gcr.io/${{ secrets.GCP_PROJECT }}/news-app:${{ github.sha }}"
-          gcloud run deploy news-app \
+          IMAGE="gcr.io/${{ secrets.GCP_PROJECT }}/mcp-server:${{ github.sha }}"
+          gcloud run deploy mcp-server \
             --image "$IMAGE" \
             --region "${{ secrets.GCP_REGION }}" \
             --project "${{ secrets.GCP_PROJECT }}" \
             --platform managed \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --port 4000
+
+      - name: Build web app image and push to Container Registry
+        run: |
+          IMAGE="gcr.io/${{ secrets.GCP_PROJECT }}/news-web:${{ github.sha }}"
+          gcloud builds submit --tag "$IMAGE" --project="${{ secrets.GCP_PROJECT }}" apps/web
+
+      - name: Deploy web app to Cloud Run
+        run: |
+          IMAGE="gcr.io/${{ secrets.GCP_PROJECT }}/news-web:${{ github.sha }}"
+          gcloud run deploy news-web \
+            --image "$IMAGE" \
+            --region "${{ secrets.GCP_REGION }}" \
+            --project "${{ secrets.GCP_PROJECT }}" \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 80
