@@ -5,7 +5,8 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY apps/mcp-server/package.json ./apps/mcp-server/
 COPY apps ./apps
-RUN npm ci && npm run build
+# Use npm install when no lockfile is present (avoids npm ci errors)
+RUN npm install && npm run build
 
 FROM node:20-alpine AS runner
 WORKDIR /app
