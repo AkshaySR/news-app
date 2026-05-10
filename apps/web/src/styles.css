@@ -1,0 +1,22 @@
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --muted:#94a3b8;
+  --accent:#38bdf8;
+  --text:#e6eef8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--text)}
+.app{max-width:1100px;margin:28px auto;padding:16px}
+.header{display:flex;flex-direction:column;gap:4px;margin-bottom:18px}
+.header h1{margin:0;font-size:28px}
+.sub{margin:0;color:var(--muted)}
+.center{text-align:center;padding:20px;color:var(--muted)}
+.error{color:#ff7b7b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
+.card-title{margin:0 0 8px 0;font-size:16px;color:var(--accent)}
+.item{margin:8px 0;display:flex;justify-content:space-between;align-items:center}
+.item a{color:var(--text);text-decoration:none}
+.score{color:var(--muted);font-size:12px;margin-left:8px}
+.footer{margin-top:24px;color:var(--muted);font-size:13px}
